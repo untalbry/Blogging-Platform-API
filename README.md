@@ -8,3 +8,4 @@ Template for a roadmap-project
 ## Soluciones hechas por la comunidad
 |Usuario|Repositorio| Documentación |
 |-------|-----------|---------|
+| <a href="https://github.com/EGAMAGZ">EGAMAGZ</a> |<a href="https://github.com/EGAMAGZ/Blogging-Platform-API">Repositorio</a> | N/A |
