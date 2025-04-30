@@ -11,7 +11,7 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public Either<Category, Boolean> createCategory(Category category) {
+    public Either<Category, Boolean> registerCategory(Category category) {
         Either<Category, Boolean> result = Either.right(false);
         var categoryResult = categoryRepository.save(category);
         if (categoryResult != null) {
@@ -24,6 +24,15 @@ public class CategoryService {
         var categoryResult = categoryRepository.getReferenceById(id);
         if(categoryResult != null ){
             result = Either.left(categoryResult);
+        }
+        return result;
+    }
+    public boolean removeCategory(Long id){
+        boolean result = false;
+        var categoryResult = categoryRepository.getReferenceById(id);
+        if(categoryResult != null){
+            categoryRepository.delete(categoryResult);
+            result = true;
         }
         return result;
     }
