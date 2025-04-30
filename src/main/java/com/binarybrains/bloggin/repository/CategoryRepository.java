@@ -5,6 +5,5 @@ import com.binarybrains.bloggin.model.Category;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Long> {
-
+public  interface CategoryRepository extends JpaRepository<Category, Long> {
 }
