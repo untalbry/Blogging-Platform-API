@@ -15,7 +15,7 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
     @PostMapping("/")
-    public ResponseEntity<?> createCategory(CategoryDto categoryDto) {
+    public ResponseEntity<?> createCategory(@RequestBody CategoryDto categoryDto) {
         return categoryService.registerCategory(categoryDto.toEntity())
                 .fold(
                         category -> ResponseEntity.ok(CategoryDto.fromEntity(category)),

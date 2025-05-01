@@ -15,7 +15,6 @@ import lombok.Setter;
 public class CategoryDto {
     private Long id;
     @NotNull
-    @Size(min=1, max=50)
     @Size(message = "Name must be between 1 and 50 characters", min = 1, max = 50)
     private String name;
     public Category toEntity(){
