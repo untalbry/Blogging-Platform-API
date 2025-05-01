@@ -3,9 +3,11 @@ package com.binarybrains.bloggin.controller;
 import com.binarybrains.bloggin.dto.BlogDto;
 import com.binarybrains.bloggin.model.Blog;
 import com.binarybrains.bloggin.service.BlogService;
+import io.vavr.control.Either;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +21,10 @@ public class BlogController {
         this.blogService = blogService;
     }
     @PostMapping("/")
-    public ResponseEntity<?> createBlog(@RequestBody  BlogDto blogDto){
+    public ResponseEntity<BlogDto> createBlog(@RequestBody  BlogDto blogDto){
         return blogService.registerBlog(blogDto.toEntity(), blogDto.getIdCategory()).fold(
                 blog -> ResponseEntity.ok(BlogDto.fromEntity(blog)),
-                error -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear blog")        );
+                error -> {throw new RuntimeException("Error al crear un blog");
+                });
     }
 }
