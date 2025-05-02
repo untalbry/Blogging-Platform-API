@@ -5,8 +5,8 @@ import com.binarybrains.bloggin.util.error.ErrorInfoGlobalMapper;
 import com.binarybrains.bloggin.model.Category;
 import com.binarybrains.bloggin.repository.CategoryRepository;
 import io.vavr.control.Either;
+import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
@@ -14,15 +14,24 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final ErrorInfoGlobalMapper errorMapper;
-    public CategoryService(CategoryRepository categoryRepository, ErrorInfoGlobalMapper errorMapper){
+    private final EntityManager entityManager;
+    private static final String GET_BY_NAME_QUERY = "SELECT * FROM b02_category WHERE tx_name=:categoryName";
+    private static final String PARAM_CATEGORY_NAME = "categoryName";
+    public CategoryService(CategoryRepository categoryRepository, ErrorInfoGlobalMapper errorMapper, EntityManager entityManager){
         this.categoryRepository = categoryRepository;
         this.errorMapper = errorMapper;
+        this.entityManager = entityManager;
     }
 
     public Either<ErrorInfo, Category> registerCategory(Category category) {
-        return Optional.of(categoryRepository.save(category))
-                .map(Either::<ErrorInfo, Category>right)
-                .orElseGet(() -> Either.left(errorMapper.getRn001g()));
+        Either<ErrorInfo, Category> result = Either.left(errorMapper.getRn002());
+        var categoryResult = entityManager.createNativeQuery(GET_BY_NAME_QUERY,  Category.class)
+                .setParameter(PARAM_CATEGORY_NAME, category.getName()).getResultStream().findFirst();
+        if(categoryResult.isEmpty()){
+            var categoryCreated = categoryRepository.save(category);
+            result = Either.right(categoryCreated);
+        }
+        return result;
     }
     public Either<ErrorInfo, Category> getCategory(Long id){
         return Optional.of(categoryRepository.getReferenceById(id))
