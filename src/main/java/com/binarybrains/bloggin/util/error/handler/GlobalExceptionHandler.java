@@ -26,9 +26,7 @@ public class GlobalExceptionHandler {
         if("NOT_FOUND".equals(error.getCode())){
             status = HttpStatus.NOT_FOUND;
         }
-
         return ResponseEntity.status(status).body(error);
-
     }
 
 }
