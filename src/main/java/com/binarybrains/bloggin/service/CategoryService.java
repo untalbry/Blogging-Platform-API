@@ -22,7 +22,7 @@ public class CategoryService {
     public Either<ErrorInfo, Category> registerCategory(Category category) {
         return Optional.of(categoryRepository.save(category))
                 .map(Either::<ErrorInfo, Category>right)
-                .orElseGet(() -> Either.left(errorMapper.getRn001()));
+                .orElseGet(() -> Either.left(errorMapper.getRn001g()));
     }
     public Either<ErrorInfo, Category> getCategory(Long id){
         return Optional.of(categoryRepository.getReferenceById(id))

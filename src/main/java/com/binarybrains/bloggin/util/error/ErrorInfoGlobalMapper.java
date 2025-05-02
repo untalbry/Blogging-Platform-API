@@ -16,7 +16,8 @@ import java.util.Optional;
 public class ErrorInfoGlobalMapper {
     private ErrorInfoData errorInfoData;
     private ErrorInfo rn001;
-
+    private ErrorInfo rn002;
+    private ErrorInfo rn003;
     @PostConstruct
     public void init() {
         this.errorInfoData = load("global-errorinfo.json")
@@ -27,6 +28,8 @@ public class ErrorInfoGlobalMapper {
         }
 
         this.rn001 = errorInfoData.getErrorsInfo().get(0);
+        this.rn002 = errorInfoData.getErrorsInfo().get(1);
+        this.rn003 = errorInfoData.getErrorsInfo().get(2);
     }
     public static<T> ErrorInfo constrainsToError(ConstraintViolation<T> ve){
         return ErrorInfo.builder()

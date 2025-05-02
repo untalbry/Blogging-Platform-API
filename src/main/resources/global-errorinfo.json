@@ -5,6 +5,18 @@
       "message": "Error del sistema: Error desconocido",
       "ruta": "global",
       "type": "SYSTEM"
+    },
+    {
+      "code": "RN002",
+      "message": "Error del sistema: Ya existe este elemento",
+      "ruta": "global",
+      "type": "SYSTEM"
+    },
+    {
+      "code": "NOT_FOUND",
+      "message": "Error del sistema: Entidad no encontrada",
+      "ruta": "global",
+      "type": "SYSTEM"
     }
   ]
 }
