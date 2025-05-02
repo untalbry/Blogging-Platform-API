@@ -18,7 +18,7 @@ public class BlogController {
     public BlogController(BlogService blogService){
         this.blogService = blogService;
     }
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<BlogDto> createBlog(@RequestBody @Valid BlogDto blogDto) {
         return blogService.registerBlog(blogDto.toEntity(), blogDto.getIdCategory())
                 .map(blog -> ResponseEntity.ok(BlogDto.fromEntity(blog)))

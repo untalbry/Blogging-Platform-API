@@ -15,7 +15,7 @@ public class CategoryController {
     public CategoryController(CategoryService categoryService){
         this.categoryService = categoryService;
     }
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto) {
         return categoryService.registerCategory(categoryDto.toEntity())
                 .map(category -> ResponseEntity.ok(CategoryDto.fromEntity(category)))
@@ -23,7 +23,7 @@ public class CategoryController {
                     throw new BlogException(errorInfo);
                 });
     }
-    @GetMapping("/read/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<CategoryDto> readCategory(@PathVariable("id") Long id){
         return categoryService.getCategory(id)
                 .map(category -> ResponseEntity.ok(CategoryDto.fromEntity(category)))
@@ -31,13 +31,13 @@ public class CategoryController {
                     throw new BlogException(errorInfo);
                 });
     }
-    @DeleteMapping("/deleted/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCategory( @PathVariable("id") Long id){
         return categoryService.removeCategory(id)
                 ? ResponseEntity.ok().body("Eliminación exitosa")
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Categoria no encontrada");
     }
-    @PutMapping("/update")
+    @PutMapping("/")
     public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto){
         return categoryService.modify(categoryDto.toEntity())
                 .map(category -> ResponseEntity.ok(CategoryDto.fromEntity(category)))
