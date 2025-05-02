@@ -3,9 +3,6 @@ package com.binarybrains.bloggin.controller;
 import com.binarybrains.bloggin.dto.BlogDto;
 import com.binarybrains.bloggin.service.BlogService;
 import com.binarybrains.bloggin.util.error.BlogException;
-import com.binarybrains.bloggin.util.error.ErrorInfoGlobalMapper;
-import com.binarybrains.bloggin.util.error.handler.GlobalExceptionHandler;
-import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BlogController {
     private final BlogService blogService;
 
-    public BlogController(BlogService blogService, ErrorInfoGlobalMapper errorMapper){
+    public BlogController(BlogService blogService){
         this.blogService = blogService;
     }
     @PostMapping("/")
