@@ -1,6 +1,7 @@
 package com.binarybrains.bloggin.controller;
 
 import com.binarybrains.bloggin.dto.CategoryDto;
+import com.binarybrains.bloggin.util.error.BlogException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,23 +15,24 @@ public class CategoryController {
     public CategoryController(CategoryService categoryService){
         this.categoryService = categoryService;
     }
-    @PostMapping("/")
-    public ResponseEntity<?> createCategory(@RequestBody CategoryDto categoryDto) {
+    @PostMapping("/create")
+    public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto) {
         return categoryService.registerCategory(categoryDto.toEntity())
-                .fold(
-                        category -> ResponseEntity.ok(CategoryDto.fromEntity(category)),
-                        error -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la categoría")
-                );
+                .map(category -> ResponseEntity.ok(CategoryDto.fromEntity(category)))
+                .getOrElseGet(errorInfo -> {
+                    throw new BlogException(errorInfo);
+                });
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<?> readCategory(@PathVariable("id") Long id){
-        return categoryService.getCategory(id).fold(
-                category -> ResponseEntity.ok(CategoryDto.fromEntity(category)),
-                error -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al obtener")
-        );
+    @GetMapping("/read/{id}")
+    public ResponseEntity<CategoryDto> readCategory(@PathVariable("id") Long id){
+        return categoryService.getCategory(id)
+                .map(category -> ResponseEntity.ok(CategoryDto.fromEntity(category)))
+                .getOrElseGet(errorInfo -> {
+                    throw new BlogException(errorInfo);
+                });
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCategory( @PathVariable("id") Long id){
+    @DeleteMapping("/deleted/{id}")
+    public ResponseEntity<String> deleteCategory( @PathVariable("id") Long id){
         return categoryService.removeCategory(id)
                 ? ResponseEntity.ok().body("Eliminación exitosa")
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Categoria no encontrada");

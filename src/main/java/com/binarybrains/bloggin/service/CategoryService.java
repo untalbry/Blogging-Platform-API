@@ -1,39 +1,40 @@
 package com.binarybrains.bloggin.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.binarybrains.bloggin.util.error.ErrorInfo;
+import com.binarybrains.bloggin.util.error.ErrorInfoGlobalMapper;
 import com.binarybrains.bloggin.model.Category;
 import com.binarybrains.bloggin.repository.CategoryRepository;
 import io.vavr.control.Either;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CategoryService {
-    @Autowired
-    private CategoryRepository categoryRepository;
 
-    public Either<Category, Boolean> registerCategory(Category category) {
-        Either<Category, Boolean> result = Either.right(false);
-        var categoryResult = categoryRepository.save(category);
-        if (categoryResult != null) {
-            result = Either.left(categoryResult);
-        }
-        return result;
+    private final CategoryRepository categoryRepository;
+    private final ErrorInfoGlobalMapper errorMapper;
+    public CategoryService(CategoryRepository categoryRepository, ErrorInfoGlobalMapper errorMapper){
+        this.categoryRepository = categoryRepository;
+        this.errorMapper = errorMapper;
     }
-    public Either<Category, Boolean> getCategory(Long id){
-        Either<Category, Boolean> result = Either.right(false);
-        var categoryResult = categoryRepository.getReferenceById(id);
-        if(categoryResult != null ){
-            result = Either.left(categoryResult);
-        }
-        return result;
+
+    public Either<ErrorInfo, Category> registerCategory(Category category) {
+        return Optional.of(categoryRepository.save(category))
+                .map(Either::<ErrorInfo, Category>right)
+                .orElseGet(() -> Either.left(errorMapper.getRn001()));
+    }
+    public Either<ErrorInfo, Category> getCategory(Long id){
+        return Optional.of(categoryRepository.getReferenceById(id))
+                .map(Either::<ErrorInfo,Category>right)
+                .orElseGet(() -> Either.left(errorMapper.getRn001()));
     }
     public boolean removeCategory(Long id){
-        boolean result = false;
-        var categoryResult = categoryRepository.getReferenceById(id);
-        if(categoryResult != null){
-            categoryRepository.delete(categoryResult);
-            result = true;
+        var categoryResult = categoryRepository.findById(id);
+        if(categoryResult.isPresent()){
+            categoryRepository.delete(categoryResult.get());
+            return true;
         }
-        return result;
+        return false;
     }
 }
