@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.binarybrains</groupId>
 	<artifactId>bloggin</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.10.1-SNAPSHOT</version>
 	<name>bloggin</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
