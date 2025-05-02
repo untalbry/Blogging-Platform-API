@@ -9,6 +9,8 @@ import io.vavr.control.Either;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class BlogService {
     private final BlogRepository blogRepository;
@@ -29,5 +31,11 @@ public class BlogService {
                     return Either.<ErrorInfo, Blog>right(blogResult);
                 })
                 .orElseGet(() -> Either.left(errorMapper.getRn001()));
+    }
+    @Transactional(rollbackOn = Exception.class)
+    public Either<ErrorInfo, Blog> getBlogById(Long id){
+        return Optional.of(blogRepository.getReferenceById(id))
+                .map(Either::<ErrorInfo,Blog>right)
+                .orElseGet(() -> Either.left(errorMapper.getRn003()));
     }
 }

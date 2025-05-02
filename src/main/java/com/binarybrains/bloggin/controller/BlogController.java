@@ -5,10 +5,7 @@ import com.binarybrains.bloggin.service.BlogService;
 import com.binarybrains.bloggin.util.error.BlogException;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/blog")
@@ -26,4 +23,13 @@ public class BlogController {
                     throw new BlogException(error);
                 });
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<BlogDto> readBlog(@PathVariable("id") Long id){
+        return blogService.getBlogById(id)
+                .map(blog -> ResponseEntity.ok(BlogDto.fromEntity(blog)))
+                .getOrElseGet(errorInfo -> {
+                    throw new BlogException(errorInfo);
+                });
+    }
+
 }
