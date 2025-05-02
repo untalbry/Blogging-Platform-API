@@ -1,0 +1,34 @@
+package com.binarybrains.bloggin.util.error.handler;
+
+import com.binarybrains.bloggin.util.error.BlogException;
+import com.binarybrains.bloggin.util.error.ErrorInfo;
+import com.binarybrains.bloggin.util.error.ErrorResponse;
+import com.binarybrains.bloggin.util.error.ErrorType;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+@ControllerAdvice
+public class GlobalExceptionHandler {
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex){
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse("Ocurrio un error inesperado: " + ex.getLocalizedMessage()));
+    }
+    @ExceptionHandler(BlogException.class)
+    public ResponseEntity<ErrorInfo> handleBlogException(BlogException  ex){
+        ErrorInfo error = ex.getErrorInfo();
+        error.setType(ErrorType.REQUEST);
+        error.setRuta(Thread.currentThread().getStackTrace()[2].getClassName());
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        if("NOT_FOUND".equals(error.getCode())){
+            status = HttpStatus.NOT_FOUND;
+        }
+
+        return ResponseEntity.status(status).body(error);
+
+    }
+
+}

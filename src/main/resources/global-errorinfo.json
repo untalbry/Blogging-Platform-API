@@ -1,0 +1,10 @@
+{
+  "errorsInfo": [
+    {
+      "code": "RN001",
+      "message": "Error del sistema: Error desconocido",
+      "ruta": "global",
+      "type": "SYSTEM"
+    }
+  ]
+}

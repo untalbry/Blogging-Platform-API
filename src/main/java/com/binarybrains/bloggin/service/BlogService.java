@@ -5,7 +5,6 @@ import com.binarybrains.bloggin.model.Category;
 import com.binarybrains.bloggin.repository.BlogRepository;
 import com.binarybrains.bloggin.repository.CategoryRepository;
 import io.vavr.control.Either;
-import io.vavr.control.Option;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

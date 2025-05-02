@@ -29,7 +29,7 @@ public class CategoryController {
                 error -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al obtener")
         );
     }
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCategory( @PathVariable("id") Long id){
         return categoryService.removeCategory(id)
                 ? ResponseEntity.ok().body("Eliminación exitosa")
