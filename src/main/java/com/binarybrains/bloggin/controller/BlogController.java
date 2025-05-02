@@ -3,6 +3,7 @@ package com.binarybrains.bloggin.controller;
 import com.binarybrains.bloggin.dto.BlogDto;
 import com.binarybrains.bloggin.service.BlogService;
 import com.binarybrains.bloggin.util.error.BlogException;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,8 +18,8 @@ public class BlogController {
     public BlogController(BlogService blogService){
         this.blogService = blogService;
     }
-    @PostMapping("/")
-    public ResponseEntity<BlogDto> createBlog(@RequestBody BlogDto blogDto) {
+    @PostMapping("/create")
+    public ResponseEntity<BlogDto> createBlog(@RequestBody @Valid BlogDto blogDto) {
         return blogService.registerBlog(blogDto.toEntity(), blogDto.getIdCategory())
                 .map(blog -> ResponseEntity.ok(BlogDto.fromEntity(blog)))
                 .getOrElseGet(error -> {
