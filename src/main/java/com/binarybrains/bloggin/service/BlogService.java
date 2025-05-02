@@ -6,6 +6,7 @@ import com.binarybrains.bloggin.repository.CategoryRepository;
 import com.binarybrains.bloggin.util.error.ErrorInfo;
 import com.binarybrains.bloggin.util.error.ErrorInfoGlobalMapper;
 import io.vavr.control.Either;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +20,7 @@ public class BlogService {
         this.errorMapper = errorMapper;
     }
 
+    @Transactional(rollbackOn = Exception.class)
     public Either<ErrorInfo, Blog> registerBlog(Blog blog, Long idCategory){
         return categoryRepository.findById(idCategory)
                 .map(category -> {

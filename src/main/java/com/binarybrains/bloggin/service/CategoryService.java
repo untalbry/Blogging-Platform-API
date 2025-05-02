@@ -6,6 +6,7 @@ import com.binarybrains.bloggin.model.Category;
 import com.binarybrains.bloggin.repository.CategoryRepository;
 import io.vavr.control.Either;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ public class CategoryService {
         this.entityManager = entityManager;
     }
 
+    @Transactional(rollbackOn = Exception.class)
     public Either<ErrorInfo, Category> registerCategory(Category category) {
         Either<ErrorInfo, Category> result = Either.left(errorMapper.getRn002());
         var categoryResult = entityManager.createNativeQuery(GET_BY_NAME_QUERY,  Category.class)
@@ -33,11 +35,15 @@ public class CategoryService {
         }
         return result;
     }
+
+    @Transactional(rollbackOn = Exception.class)
     public Either<ErrorInfo, Category> getCategory(Long id){
         return Optional.of(categoryRepository.getReferenceById(id))
                 .map(Either::<ErrorInfo,Category>right)
                 .orElseGet(() -> Either.left(errorMapper.getRn001()));
     }
+
+    @Transactional(rollbackOn = Exception.class)
     public boolean removeCategory(Long id){
         var categoryResult = categoryRepository.findById(id);
         if(categoryResult.isPresent()){
@@ -45,5 +51,15 @@ public class CategoryService {
             return true;
         }
         return false;
+    }
+    @Transactional(rollbackOn = Exception.class)
+    public Either<ErrorInfo, Category> modify(Category category){
+        Either<ErrorInfo, Category> result = Either.left(errorMapper.getRn003());
+        var categoryResult = categoryRepository.findById(category.getId());
+        if(categoryResult.isPresent()){
+            var categoryUpdate = categoryRepository.saveAndFlush(category);
+            result = Either.right(categoryUpdate);
+        }
+        return result;
     }
 }

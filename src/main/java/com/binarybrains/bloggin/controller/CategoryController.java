@@ -37,4 +37,12 @@ public class CategoryController {
                 ? ResponseEntity.ok().body("Eliminación exitosa")
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Categoria no encontrada");
     }
+    @PutMapping("/update")
+    public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto){
+        return categoryService.modify(categoryDto.toEntity())
+                .map(category -> ResponseEntity.ok(CategoryDto.fromEntity(category)))
+                .getOrElseGet(errorInfo -> {
+                    throw new BlogException(errorInfo);
+                });
+    }
 }
