@@ -33,13 +33,18 @@ public class BlogController {
                 });
     }
     @PutMapping
-    public ResponseEntity<BlogResponseDto> updateCategory(@RequestBody BlogRequestDto blogUpdateDto){
+    public ResponseEntity<BlogResponseDto> updateBlog(@RequestBody BlogRequestDto blogUpdateDto){
         return blogService.modify(blogUpdateDto.toEntity(), blogUpdateDto.getIdCategory())
                 .map(blog -> ResponseEntity.ok(BlogResponseDto.fromEntity(blog)))
                 .getOrElseGet(errorInfo -> {
                     throw new BlogException(errorInfo);
                 });
     }
-
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteBlog(@PathVariable Long id){
+        return blogService.removeBlog(id).map(ResponseEntity::ok)
+                .getOrElseGet(errorInfo -> {
+                    throw new BlogException(errorInfo);
+                });
+    }
 }

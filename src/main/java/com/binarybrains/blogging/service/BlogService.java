@@ -8,7 +8,6 @@ import com.binarybrains.blogging.util.error.ErrorInfoGlobalMapper;
 import io.vavr.control.Either;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
@@ -54,6 +53,16 @@ public class BlogService {
             }
         }
 
+        return result;
+    }
+    @Transactional(rollbackOn = Exception.class)
+    public Either<ErrorInfo, Boolean> removeBlog(Long id){
+        Either<ErrorInfo, Boolean> result = Either.left(errorMapper.getRn003());
+        var blogResult = blogRepository.findById(id);
+        if(blogResult.isPresent()){
+            blogRepository.delete(blogResult.get());
+            result = Either.right(true);
+        }
         return result;
     }
 }
