@@ -1,8 +1,7 @@
 package com.binarybrains.blogging.controller;
 
-import com.binarybrains.blogging.dto.BlogCreateDto;
-import com.binarybrains.blogging.dto.BlogDto;
-import com.binarybrains.blogging.model.Blog;
+import com.binarybrains.blogging.dto.BlogRequestDto;
+import com.binarybrains.blogging.dto.BlogResponseDto;
 import com.binarybrains.blogging.service.BlogService;
 import com.binarybrains.blogging.util.error.BlogException;
 import jakarta.validation.Valid;
@@ -18,25 +17,25 @@ public class BlogController {
         this.blogService = blogService;
     }
     @PostMapping("/")
-    public ResponseEntity<BlogDto> createBlog(@RequestBody @Valid BlogCreateDto blogCreteDto) {
+    public ResponseEntity<BlogResponseDto> createBlog(@RequestBody @Valid BlogRequestDto blogCreteDto) {
         return blogService.registerBlog(blogCreteDto.toEntity(), blogCreteDto.getIdCategory())
-                .map(blog -> ResponseEntity.ok(BlogDto.fromEntity(blog)))
+                .map(blog -> ResponseEntity.ok(BlogResponseDto.fromEntity(blog)))
                 .getOrElseGet(error -> {
                     throw new BlogException(error);
                 });
     }
     @GetMapping("/{id}")
-    public ResponseEntity<BlogDto> readBlog(@PathVariable("id") Long id){
+    public ResponseEntity<BlogResponseDto> readBlog(@PathVariable("id") Long id){
         return blogService.getBlogById(id)
-                .map(blog -> ResponseEntity.ok(BlogDto.fromEntity(blog)))
+                .map(blog -> ResponseEntity.ok(BlogResponseDto.fromEntity(blog)))
                 .getOrElseGet(errorInfo -> {
                     throw new BlogException(errorInfo);
                 });
     }
     @PutMapping
-    public ResponseEntity<BlogDto> updateCategory(@RequestBody BlogDto blogDto){
-        return blogService.modify(blogDto.toEntity(), blogDto.getIdCategory())
-                .map(blog -> ResponseEntity.ok(BlogDto.fromEntity(blog)))
+    public ResponseEntity<BlogResponseDto> updateCategory(@RequestBody BlogRequestDto blogUpdateDto){
+        return blogService.modify(blogUpdateDto.toEntity(), blogUpdateDto.getIdCategory())
+                .map(blog -> ResponseEntity.ok(BlogResponseDto.fromEntity(blog)))
                 .getOrElseGet(errorInfo -> {
                     throw new BlogException(errorInfo);
                 });

@@ -8,31 +8,50 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(name = "BlogCreateDto", description = "Object used to create a Blog entity through the API")
-public class BlogCreateDto {
+@Schema(name = "BlogResponseDto", description = "Objeto que representa Blog")
+public class BlogResponseDto {
     @JsonProperty
-    @Schema(description = "Blog title")
+    private Long id;
+    @JsonProperty
+    @Schema(description = "Titulo del blog")
     @NotBlank(message = "Title must not be blank and max 50 characters")
     @Size(min=5, max = 50, message = "Title must be at most 50 characters and at least 5 characters")
     private String title;
     @JsonProperty
-    @Schema(description = "Blog content")
+    @Schema(description = "Contenido del blog")
     @NotNull
     @Size(message = "Description must be between 1 and 50 characters", min = 1, max = 50)
     private String content;
     @JsonProperty
-    @Schema(description = "Identifier of the category to which the blog belongs")
     private Long idCategory;
-
+    @JsonProperty
+    private LocalDateTime createdAt;
+    @JsonProperty
+    private LocalDateTime lastUpdate;
     public Blog toEntity(){
         return Blog.builder()
+                .id(this.id)
                 .title(this.title)
                 .content(this.content)
+                .build();
+
+    }
+    public static BlogResponseDto fromEntity(Blog blog){
+
+        return BlogResponseDto.builder()
+                .id(blog.getId())
+                .title(blog.getTitle())
+                .content(blog.getContent())
+                .idCategory(blog.getCategory().getId())
+                .createdAt(blog.getCreatedAt())
+                .lastUpdate(blog.getLastUpdate())
                 .build();
     }
 }
