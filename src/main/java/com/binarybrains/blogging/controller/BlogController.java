@@ -1,5 +1,6 @@
 package com.binarybrains.blogging.controller;
 
+import com.binarybrains.blogging.dto.BlogCreateDto;
 import com.binarybrains.blogging.dto.BlogDto;
 import com.binarybrains.blogging.model.Blog;
 import com.binarybrains.blogging.service.BlogService;
@@ -17,8 +18,8 @@ public class BlogController {
         this.blogService = blogService;
     }
     @PostMapping("/")
-    public ResponseEntity<BlogDto> createBlog(@RequestBody @Valid BlogDto blogDto) {
-        return blogService.registerBlog(blogDto.toEntity(), blogDto.getIdCategory())
+    public ResponseEntity<BlogDto> createBlog(@RequestBody @Valid BlogCreateDto blogCreteDto) {
+        return blogService.registerBlog(blogCreteDto.toEntity(), blogCreteDto.getIdCategory())
                 .map(blog -> ResponseEntity.ok(BlogDto.fromEntity(blog)))
                 .getOrElseGet(error -> {
                     throw new BlogException(error);
