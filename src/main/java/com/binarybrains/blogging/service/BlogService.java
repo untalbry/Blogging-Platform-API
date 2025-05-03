@@ -1,10 +1,10 @@
-package com.binarybrains.bloggin.service;
+package com.binarybrains.blogging.service;
 
-import com.binarybrains.bloggin.model.Blog;
-import com.binarybrains.bloggin.repository.BlogRepository;
-import com.binarybrains.bloggin.repository.CategoryRepository;
-import com.binarybrains.bloggin.util.error.ErrorInfo;
-import com.binarybrains.bloggin.util.error.ErrorInfoGlobalMapper;
+import com.binarybrains.blogging.model.Blog;
+import com.binarybrains.blogging.repository.BlogRepository;
+import com.binarybrains.blogging.repository.CategoryRepository;
+import com.binarybrains.blogging.util.error.ErrorInfo;
+import com.binarybrains.blogging.util.error.ErrorInfoGlobalMapper;
 import io.vavr.control.Either;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -37,5 +37,23 @@ public class BlogService {
         return Optional.of(blogRepository.getReferenceById(id))
                 .map(Either::<ErrorInfo,Blog>right)
                 .orElseGet(() -> Either.left(errorMapper.getRn003()));
+    }
+    @Transactional(rollbackOn = Exception.class)
+    public Either<ErrorInfo, Blog> modify(Blog blog, Long idCategory){
+        Either<ErrorInfo, Blog> result = Either.left(errorMapper.getRn003());
+        var blogResult = blogRepository.findById(blog.getId());
+        if (blogResult.isPresent()) {
+            var category = categoryRepository.findById(idCategory);
+            if (category.isPresent()) {
+                Blog existing = blogResult.get();
+                existing.setTitle(blog.getTitle());
+                existing.setContent(blog.getContent());
+                existing.setCategory(category.get());
+                Blog blogUpdate = blogRepository.saveAndFlush(existing);
+                result = Either.right(blogUpdate);
+            }
+        }
+
+        return result;
     }
 }

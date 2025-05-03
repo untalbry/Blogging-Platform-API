@@ -1,4 +1,4 @@
-package com.binarybrains.bloggin.model;
+package com.binarybrains.blogging.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

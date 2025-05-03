@@ -1,9 +1,9 @@
-package com.binarybrains.bloggin.util.error.handler;
+package com.binarybrains.blogging.util.error.handler;
 
-import com.binarybrains.bloggin.util.error.BlogException;
-import com.binarybrains.bloggin.util.error.ErrorInfo;
-import com.binarybrains.bloggin.util.error.ErrorResponse;
-import com.binarybrains.bloggin.util.error.ErrorType;
+import com.binarybrains.blogging.util.error.BlogException;
+import com.binarybrains.blogging.util.error.ErrorInfo;
+import com.binarybrains.blogging.util.error.ErrorResponse;
+import com.binarybrains.blogging.util.error.ErrorType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

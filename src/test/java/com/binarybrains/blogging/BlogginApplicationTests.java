@@ -1,4 +1,4 @@
-package com.binarybrains.bloggin;
+package com.binarybrains.blogging;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

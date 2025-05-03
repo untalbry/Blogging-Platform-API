@@ -1,4 +1,4 @@
-package com.binarybrains.bloggin.util.error;
+package com.binarybrains.blogging.util.error;
 
 public enum ErrorType {
     FIELD, REQUEST, SYSTEM

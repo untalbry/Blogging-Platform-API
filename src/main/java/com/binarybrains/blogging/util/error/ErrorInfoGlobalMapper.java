@@ -1,11 +1,10 @@
-package com.binarybrains.bloggin.util.error;
+package com.binarybrains.blogging.util.error;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.ConstraintViolation;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;

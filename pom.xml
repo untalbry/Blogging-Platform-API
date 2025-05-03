@@ -10,8 +10,8 @@
 	</parent>
 	<groupId>com.binarybrains</groupId>
 	<artifactId>bloggin</artifactId>
-	<version>0.11.1-SNAPSHOT</version>
-	<name>bloggin</name>
+	<version>0.12.1-SNAPSHOT</version>
+	<name>blogging</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

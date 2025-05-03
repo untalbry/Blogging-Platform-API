@@ -1,7 +1,8 @@
-package com.binarybrains.bloggin.model;
+package com.binarybrains.blogging.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,6 +25,7 @@ public class Blog {
     @JoinColumn(name = "fk_id_category")
     private Category category;
     @Column(name = "fh_created_at")
+    @CreationTimestamp
     private LocalDateTime createdAt;
     @Column(name = "fh_last_update")
     private LocalDateTime lastUpdate;
@@ -31,6 +33,10 @@ public class Blog {
     @PrePersist
     public void prePersist(){
         this.createdAt = LocalDateTime.now();
+        this.lastUpdate = LocalDateTime.now();
+    }
+    @PreUpdate
+    public void preUpdate(){
         this.lastUpdate = LocalDateTime.now();
     }
 

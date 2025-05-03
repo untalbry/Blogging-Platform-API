@@ -1,12 +1,11 @@
-package com.binarybrains.bloggin.controller;
+package com.binarybrains.blogging.controller;
 
-import com.binarybrains.bloggin.dto.CategoryDto;
-import com.binarybrains.bloggin.util.error.BlogException;
+import com.binarybrains.blogging.dto.CategoryDto;
+import com.binarybrains.blogging.util.error.BlogException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.binarybrains.bloggin.service.CategoryService;
-
+import com.binarybrains.blogging.service.CategoryService;
 
 @RestController
 @RequestMapping("/category")

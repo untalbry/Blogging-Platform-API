@@ -1,6 +1,6 @@
-package com.binarybrains.bloggin.dto;
+package com.binarybrains.blogging.dto;
 
-import com.binarybrains.bloggin.model.Category;
+import com.binarybrains.blogging.model.Category;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

@@ -1,9 +1,9 @@
-package com.binarybrains.bloggin.service;
+package com.binarybrains.blogging.service;
 
-import com.binarybrains.bloggin.util.error.ErrorInfo;
-import com.binarybrains.bloggin.util.error.ErrorInfoGlobalMapper;
-import com.binarybrains.bloggin.model.Category;
-import com.binarybrains.bloggin.repository.CategoryRepository;
+import com.binarybrains.blogging.util.error.ErrorInfo;
+import com.binarybrains.blogging.util.error.ErrorInfoGlobalMapper;
+import com.binarybrains.blogging.model.Category;
+import com.binarybrains.blogging.repository.CategoryRepository;
 import io.vavr.control.Either;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;

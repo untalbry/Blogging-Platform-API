@@ -1,6 +1,6 @@
-package com.binarybrains.bloggin.dto;
+package com.binarybrains.blogging.dto;
 
-import com.binarybrains.bloggin.model.Blog;
+import com.binarybrains.blogging.model.Blog;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
