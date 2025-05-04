@@ -13,8 +13,9 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(name = "BlogRequestDto", description = "Object used to create a Blog entity through the API")
-public class BlogRequestDto {
+@Schema(name = "BlogCreateDto", description = "Object used to create a Blog entity through the API")
+public class BlogCreateDto {
+
     @JsonProperty
     @Schema(description = "Blog title")
     @NotBlank(message = "Title must not be blank and max 50 characters")

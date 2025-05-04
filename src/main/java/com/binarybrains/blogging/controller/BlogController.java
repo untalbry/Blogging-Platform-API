@@ -1,7 +1,8 @@
 package com.binarybrains.blogging.controller;
 
-import com.binarybrains.blogging.dto.BlogRequestDto;
+import com.binarybrains.blogging.dto.BlogCreateDto;
 import com.binarybrains.blogging.dto.BlogResponseDto;
+import com.binarybrains.blogging.dto.BlogUpdateDto;
 import com.binarybrains.blogging.service.BlogService;
 import com.binarybrains.blogging.util.error.BlogException;
 import jakarta.validation.Valid;
@@ -17,7 +18,7 @@ public class BlogController {
         this.blogService = blogService;
     }
     @PostMapping("/")
-    public ResponseEntity<BlogResponseDto> createBlog(@RequestBody @Valid BlogRequestDto blogCreteDto) {
+    public ResponseEntity<BlogResponseDto> createBlog(@RequestBody @Valid BlogCreateDto blogCreteDto) {
         return blogService.registerBlog(blogCreteDto.toEntity(), blogCreteDto.getIdCategory())
                 .map(blog -> ResponseEntity.ok(BlogResponseDto.fromEntity(blog)))
                 .getOrElseGet(error -> {
@@ -33,7 +34,7 @@ public class BlogController {
                 });
     }
     @PutMapping
-    public ResponseEntity<BlogResponseDto> updateBlog(@RequestBody BlogRequestDto blogUpdateDto){
+    public ResponseEntity<BlogResponseDto> updateBlog(@RequestBody BlogUpdateDto blogUpdateDto){
         return blogService.modify(blogUpdateDto.toEntity(), blogUpdateDto.getIdCategory())
                 .map(blog -> ResponseEntity.ok(BlogResponseDto.fromEntity(blog)))
                 .getOrElseGet(errorInfo -> {

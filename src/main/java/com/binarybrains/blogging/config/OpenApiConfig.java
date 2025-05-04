@@ -13,7 +13,7 @@ public class OpenApiConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("Blogging Platform API")
-                        .version("v0.11.1")
+                        .version("v0.14.1")
                         .description("RESTful API for a personal blogging platform"));
     }
 }
